@@ -34,7 +34,6 @@ public class ReaderAndGenerator {
 
             numbers[i] = number;
         }
-        System.out.println(Arrays.toString(numbers));
 
         // Writes to 3 separate files
         try {
@@ -43,13 +42,18 @@ public class ReaderAndGenerator {
             writers[1] = new FileWriter("src/out2.txt");
             writers[2] = new FileWriter("src/out3.txt");
 
+            int[] upSort = upSortNumbers(numbers);
+            int[] downSort = downSortNumbers(numbers);
+
             StringBuilder[] builders = new StringBuilder[3];
             for (int i = 0; i < 3; i ++) {
                 builders[i] = new StringBuilder();
             }
 
-            for (Integer num : numbers) {
-                builders[0].append(num + " ");
+            for (int i = 0; i < n; i ++) {
+                builders[0].append(numbers[i]).append(" ");
+                builders[1].append(upSort[i]).append(" ");
+                builders[2].append(downSort[i]).append(" ");
             }
 
             for (int i = 0; i < 3; i ++) {
@@ -59,5 +63,49 @@ public class ReaderAndGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int[] upSortNumbers(int[] nums) {
+        int[] upSort = new int[nums.length];
+
+        System.arraycopy(nums, 0, upSort, 0, upSort.length);
+
+        boolean sorted = false;
+        int temp;
+        while(!sorted) {
+            sorted = true;
+            for (int i = 0; i < upSort.length - 1; i++) {
+                if (upSort[i] > upSort[i + 1]) {
+                    temp = upSort[i];
+                    upSort[i] = upSort[i + 1];
+                    upSort[i + 1] = temp;
+                    sorted = false;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(upSort));
+        return upSort;
+    }
+
+    public static int[] downSortNumbers(int[] nums) {
+        int[] downSort = new int[nums.length];
+
+        System.arraycopy(nums, 0, downSort, 0, downSort.length);
+
+        boolean sorted = false;
+        int temp;
+        while(!sorted) {
+            sorted = true;
+            for (int i = 0; i < downSort.length - 1; i++) {
+                if (downSort[i] < downSort[i + 1]) {
+                    temp = downSort[i];
+                    downSort[i] = downSort[i + 1];
+                    downSort[i + 1] = temp;
+                    sorted = false;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(downSort));
+        return downSort;
     }
 }
